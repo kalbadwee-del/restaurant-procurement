@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    ports: ["8080:8080"]
+    environment:
+      # single bootstrap anchor (DECISIONS.md D-S1) — point at your Neon project:
+      DATABASE_URL: "postgresql://user:pass@ep-xxx-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require"
+      # NODE_ENV: production
+      # BASE_URL: https://your-app.koyeb.app   # enables real-mode webhook registration
+    volumes:
+      - app-data:/app/data   # local sqlite fallback for dev without DATABASE_URL
+    restart: unless-stopped
+
+volumes:
+  app-data:
